@@ -80,25 +80,6 @@ java
 | /cart                                       | DELETE | 장바구니에서 상품 제거   | (한번에 여러 개 가능)                                                                                                                                              |
 
 ## 기타 정보 
->(application.properties)
-
-spring.application.name=AlomShoppingmall
-
-spring.jpa.properties.hibernate.connection.isolation=REPEATABLE_READ
-
-spring.datasource.url=jdbc:mysql://localhost:3306/alomshoppingmall
-
-spring.datasource.username=root
-
-spring.datasource.password=1234
-
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-
-spring.jpa.hibernate.ddl-auto=update
-
-spring.jpa.show-sql=true
-
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 
 >(사용 라이브러리)
 
