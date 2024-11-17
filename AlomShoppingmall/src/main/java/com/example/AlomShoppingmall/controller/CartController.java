@@ -36,10 +36,18 @@ public class CartController {
         return ResponseEntity.ok(cartResponses);
     }
 
+//    @DeleteMapping
+//    public ResponseEntity<Void> removeFromCart(@RequestParam Long id) {
+//        cartService.removeFromCart(id);
+//        return ResponseEntity.noContent().build();
+//    }
     @DeleteMapping
-    public ResponseEntity<Void> removeFromCart(@RequestParam Long id) {
-        cartService.removeFromCart(id);
+    public ResponseEntity<Void> removeFromCart(
+            @RequestParam(required = true) List<Long> ids,
+            @RequestParam(required = true) Long userId) {  // 현재 사용자의 ID를 추가로 받음.
+        cartService.removeFromCart(ids, userId);
         return ResponseEntity.noContent().build();
     }
+
 }
 

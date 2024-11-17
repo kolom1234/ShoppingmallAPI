@@ -3,6 +3,7 @@ package com.example.AlomShoppingmall.service;
 import com.example.AlomShoppingmall.dto.CartRequest;
 import com.example.AlomShoppingmall.exception.CartNotFoundException;
 import com.example.AlomShoppingmall.exception.ProductNotFoundException;
+import com.example.AlomShoppingmall.exception.UnauthorizedException;
 import com.example.AlomShoppingmall.exception.UserNotFoundException;
 import com.example.AlomShoppingmall.model.Cart;
 import com.example.AlomShoppingmall.model.Product;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,10 +38,10 @@ public class CartService {
     @Transactional  // 쓰기 작업이므로 readOnly = false
     public Cart addToCart(CartRequest cartRequest) {
         User user = userRepository.findById(cartRequest.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User 를 찾을 수 없습니다"));
 
         Product product = productRepository.findById(cartRequest.getProductId())
-                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product 를 찾을 수 없습니다"));
 
         // 기존 장바구니 항목 확인
         Optional<Cart> existingCart = cartRepository.findByUserIdAndProductId(
@@ -75,9 +77,38 @@ public class CartService {
     }
 
     @Transactional
-    public void removeFromCart(Long id) {
-        Cart cart = cartRepository.findById(id)
-                .orElseThrow(() -> new CartNotFoundException("Cart not found with id: " + id));
-        cartRepository.delete(cart);
+    public void removeFromCart(List<Long> ids, Long userId) {
+        if (ids == null || ids.isEmpty()) {
+            throw new IllegalArgumentException("삭제할 장바구니 항목의 ID가 제공되지 않았습니다.");
+        }
+
+        // 사용자가 존재하는지 확인
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
+
+        // 해당 ID들의 장바구니 항목을 조회
+        List<Cart> carts = cartRepository.findAllById(ids);
+
+        // 존재하지 않는 ID 추출
+        List<Long> foundIds = carts.stream()
+                .map(Cart::getId)
+                .collect(Collectors.toList());
+        List<Long> notFoundIds = ids.stream()
+                .filter(id -> !foundIds.contains(id))
+                .collect(Collectors.toList());
+
+        if (!notFoundIds.isEmpty()) {
+            throw new CartNotFoundException("다음 장바구니 항목을 찾을 수 없습니다: " + notFoundIds);
+        }
+
+        // 사용자의 장바구니 항목인지 검증
+        for (Cart cart : carts) {
+            if (!cart.getUser().getId().equals(userId)) {
+                throw new UnauthorizedException("장바구니 항목에 대한 삭제 권한이 없습니다. Cart ID: " + cart.getId());
+            }
+        }
+
+        // 장바구니 항목 삭제
+        cartRepository.deleteAll(carts);
     }
 }

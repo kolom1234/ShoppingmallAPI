@@ -22,7 +22,9 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             @Param("categoryId") Long categoryId
     );
 
-    // 기존 장바구니 항목 확인을 위한 메서드
+    // 기존 장바구니 항목 확인
     Optional<Cart> findByUserIdAndProductId(Long userId, Long productId);
+    // 특정 사용자의 장바구니 항목을 조회하
+    List<Cart> findByIdInAndUserId(List<Long> ids, Long userId);
 }
 

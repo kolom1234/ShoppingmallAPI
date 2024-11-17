@@ -1,5 +1,6 @@
 package com.example.AlomShoppingmall.controller;
 
+import com.example.AlomShoppingmall.dto.ProductCategoryRequest;
 import com.example.AlomShoppingmall.dto.ProductCategoryResponse;
 import com.example.AlomShoppingmall.dto.ProductRequest;
 import com.example.AlomShoppingmall.dto.ProductResponse;
@@ -43,7 +44,7 @@ public class ProductController {
     }
 
     @PostMapping("/category")
-    public ResponseEntity<ProductCategoryResponse> createCategory(@Valid @RequestBody ProductRequest categoryRequest) {
+    public ResponseEntity<ProductCategoryResponse> createCategory(@Valid @RequestBody ProductCategoryRequest categoryRequest) {
         ProductCategory category = productService.createCategory(categoryRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductCategoryResponse(category));
     }

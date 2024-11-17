@@ -1,5 +1,6 @@
 package com.example.AlomShoppingmall.service;
 
+import com.example.AlomShoppingmall.dto.ProductCategoryRequest;
 import com.example.AlomShoppingmall.dto.ProductRequest;
 import com.example.AlomShoppingmall.exception.CategoryNotFoundException;
 import com.example.AlomShoppingmall.exception.DuplicateCategoryException;
@@ -56,7 +57,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductCategory createCategory(ProductRequest categoryRequest) {
+    public ProductCategory createCategory(ProductCategoryRequest categoryRequest) {
         // 카테고리 이름 중복 체크
         if (categoryRepository.findByCategoryName(categoryRequest.getCategoryName()).isPresent()) {
             throw new DuplicateCategoryException("이미 존재하는 카테고리입니다.");

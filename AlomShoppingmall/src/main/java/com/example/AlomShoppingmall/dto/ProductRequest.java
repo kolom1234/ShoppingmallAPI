@@ -29,7 +29,7 @@ public class ProductRequest {
         this.categoryId = categoryId;
     }
 
-    private String categoryName;
+   // private String categoryName;
 
     // Getters and setters
 
@@ -71,13 +71,5 @@ public class ProductRequest {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
     }
 }
