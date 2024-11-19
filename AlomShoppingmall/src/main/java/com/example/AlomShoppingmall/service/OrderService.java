@@ -12,6 +12,7 @@ import com.example.AlomShoppingmall.model.User;
 import com.example.AlomShoppingmall.repository.OrderRepository;
 import com.example.AlomShoppingmall.repository.ProductRepository;
 import com.example.AlomShoppingmall.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,15 +23,11 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Order createOrder(OrderRequest orderRequest) {

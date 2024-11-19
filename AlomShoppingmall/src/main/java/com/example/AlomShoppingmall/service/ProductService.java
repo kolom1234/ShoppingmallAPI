@@ -10,6 +10,7 @@ import com.example.AlomShoppingmall.repository.ProductRepository;
 import com.example.AlomShoppingmall.repository.ProductCategoryRepository;
 import com.example.AlomShoppingmall.exception.ProductNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +18,11 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ProductCategoryRepository categoryRepository;
-
-    @Transactional
-    public Product createProduct(ProductRequest productRequest) {
+    private final ProductRepository productRepository;
+    private final ProductCategoryRepository categoryRepository;
+    public final Product createProduct(ProductRequest productRequest) {
         ProductCategory category = categoryRepository.findById(productRequest.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException("카테고리를 찾을 수 없습니다."));
 

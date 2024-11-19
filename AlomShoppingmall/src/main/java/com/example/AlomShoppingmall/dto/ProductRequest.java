@@ -2,14 +2,20 @@ package com.example.AlomShoppingmall.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 public class ProductRequest {
+    @Setter
+    @Getter
     private String category;
 
     @NotNull
     @Size(max = 255)
     private String productName;
 
+    @Setter
+    @Getter
     private String description;
 
     @NotNull
@@ -33,14 +39,6 @@ public class ProductRequest {
 
     // Getters and setters
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public @NotNull @Size(max = 255) String getProductName() {
         return productName;
     }
@@ -63,13 +61,5 @@ public class ProductRequest {
 
     public void setPrice(@NotNull Integer price) {
         this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

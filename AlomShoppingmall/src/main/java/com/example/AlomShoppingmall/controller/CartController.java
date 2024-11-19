@@ -3,11 +3,13 @@ package com.example.AlomShoppingmall.controller;
 import com.example.AlomShoppingmall.dto.CartRequest;
 import com.example.AlomShoppingmall.dto.CartResponse;
 import com.example.AlomShoppingmall.model.Cart;
+import com.example.AlomShoppingmall.model.User;
 import com.example.AlomShoppingmall.service.CartService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +17,9 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/cart")
+@RequiredArgsConstructor
 public class CartController {
-    @Autowired
-    private CartService cartService;
+    private final CartService cartService;
 
     @PostMapping
     public ResponseEntity<CartResponse> addToCart(@Valid @RequestBody CartRequest cartRequest) {
@@ -36,16 +38,12 @@ public class CartController {
         return ResponseEntity.ok(cartResponses);
     }
 
-//    @DeleteMapping
-//    public ResponseEntity<Void> removeFromCart(@RequestParam Long id) {
-//        cartService.removeFromCart(id);
-//        return ResponseEntity.noContent().build();
-//    }
     @DeleteMapping
     public ResponseEntity<Void> removeFromCart(
-            @RequestParam(required = true) List<Long> ids,
-            @RequestParam(required = true) Long userId) {  // 현재 사용자의 ID를 추가로 받음.
-        cartService.removeFromCart(ids, userId);
+            @RequestParam List<Long> ids,
+            Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        cartService.removeFromCart(ids, user.getId());
         return ResponseEntity.noContent().build();
     }
 

@@ -5,22 +5,21 @@ import com.example.AlomShoppingmall.dto.OrderResponse;
 import com.example.AlomShoppingmall.model.Order;
 import com.example.AlomShoppingmall.service.OrderService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/order")
+@RequiredArgsConstructor
 public class OrderController {
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest orderRequest) {

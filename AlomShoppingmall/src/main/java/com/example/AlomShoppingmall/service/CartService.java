@@ -12,28 +12,23 @@ import com.example.AlomShoppingmall.repository.CartRepository;
 import com.example.AlomShoppingmall.repository.ProductRepository;
 import com.example.AlomShoppingmall.repository.UserRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class CartService {
-    @Autowired
-    private CartRepository cartRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+    private final CartRepository cartRepository;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     @Transactional  // 쓰기 작업이므로 readOnly = false
     public Cart addToCart(CartRequest cartRequest) {
@@ -92,10 +87,10 @@ public class CartService {
         // 존재하지 않는 ID 추출
         List<Long> foundIds = carts.stream()
                 .map(Cart::getId)
-                .collect(Collectors.toList());
+                .toList();
         List<Long> notFoundIds = ids.stream()
                 .filter(id -> !foundIds.contains(id))
-                .collect(Collectors.toList());
+                .toList();
 
         if (!notFoundIds.isEmpty()) {
             throw new CartNotFoundException("다음 장바구니 항목을 찾을 수 없습니다: " + notFoundIds);

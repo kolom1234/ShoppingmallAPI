@@ -1,9 +1,13 @@
 package com.example.AlomShoppingmall.dto;
 
 import com.example.AlomShoppingmall.model.Order;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 public class OrderResponse {
     private Long id;
     private LocalDateTime orderAt;
@@ -21,54 +25,5 @@ public class OrderResponse {
         this.userId = order.getUser().getId();
         this.productId = order.getProduct().getId();
     }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getOrderAt() {
-        return orderAt;
-    }
-
-    public void setOrderAt(LocalDateTime orderAt) {
-        this.orderAt = orderAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 }
 
