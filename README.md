@@ -1,6 +1,6 @@
-# 아롬 Spring 14-6 쇼핑몰 API 프로젝트 입니다
+# 아롬 Spring 쇼핑몰 API 프로젝트 입니다
 ## 개요
-> 이 API는 유저 정보 삽입·조회, 상품 추가·조회·제거·주문·주문 취소, 카테고리 추가·제거, 장바구니 상품 추가·제거 등의 기능을 지원합니다. 
+> 이 API는 회원가입, 로그인, Token 로그인, spring security 기반 인증, 유저 정보 삽입·조회, 상품 추가·조회·제거·주문·주문 취소, 카테고리 추가·제거, 장바구니 상품 추가·제거 등의 기능을 지원합니다. 
 
 ## 목표
 > ERD를 참고하여 여러 기능과 엔드포인트를 가진 API를 개발할 수 있습니다
@@ -13,6 +13,7 @@ java
     │   ├── SecurityConfig
     │   └── WebConfig
     ├── controller
+    │   ├── AuthController
     │   ├── CartController
     │   ├── OrderController
     │   ├── ProductController
@@ -22,9 +23,12 @@ java
     │   ├── CartResponse
     │   ├── OrderRequest
     │   ├── OrderResponse
+    │   ├── ProductCategoryRequest
     │   ├── ProductCategoryResponse
     │   ├── ProductRequest
     │   ├── ProductResponse
+    │   ├── LoginRequest
+    │   ├── LoginResponse
     │   ├── UserRequest
     │   └── UserResponse
     ├── exception
@@ -36,6 +40,7 @@ java
     │   ├── InsufficientStockException
     │   ├── OrderNotFoundException
     │   ├── ProductNotFoundException
+    │   ├── UnauthorizedException
     │   └── UserNotFoundException
     ├── model
     │   ├── Cart
@@ -50,6 +55,8 @@ java
     │   ├── ProductRepository
     │   └── UserRepository
     ├── service
+    │   ├── AuthenticationService
+    │   ├── CustomUserDetailsService
     │   ├── CartService
     │   ├── OrderService
     │   ├── ProductService
@@ -98,5 +105,11 @@ Lombok
 Spring Security 
 
 Spring Cloud OpenFeign 
+
+jsonwebtoken:jjwt
+
+jakarta
+
+
 
 ...
